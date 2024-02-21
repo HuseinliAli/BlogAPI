@@ -12,7 +12,7 @@ internal class UserConfiguration : IEntityTypeConfiguration<User>
         builder.HasKey(u => u.Id);
         builder.Property(u => u.Id).HasColumnType("uniqueidentifier");
 
-        builder.Property(u => u.UpdatedAt).HasColumnType("datetime");
+        builder.Property(u => u.UpdatedAt).HasColumnType("datetime").IsRequired(false);
         builder.Property(u => u.CreatedAt).HasColumnType("datetime").HasDefaultValue(DateTime.Now);
 
         builder.Property(u => u.FirstName).HasColumnType("nvarchar").HasMaxLength(100).IsRequired(); 
@@ -23,5 +23,9 @@ internal class UserConfiguration : IEntityTypeConfiguration<User>
         builder.Property(u => u.PasswordHash).IsRequired();
         builder.Property(u => u.PasswordSalt).IsRequired();
         builder.Property(u => u.IsActive).HasColumnType("bit").HasDefaultValue(true);
+
+        builder.Property(b => b.IsDelete).HasColumnType("bit").HasDefaultValue(false);
+        builder.HasQueryFilter(t => t.IsDelete == false);
+        builder.Property(b => b.DeletedAt).HasColumnType("datetime").IsRequired(false);
     }
 }

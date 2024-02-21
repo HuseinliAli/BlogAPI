@@ -12,9 +12,6 @@ public class BlogPost:BaseEntity<int>
     public string Subject { get; set; }
     public string Content { get; set; }
     public long ViewCount{ get; set; }
-   
-    public bool IsDelete { get; set; }
-    public DateTime DeletedAt { get; set; }
 
     public Guid CreatedBy { get; set; }
     public Guid DeletedBy { get; set; }

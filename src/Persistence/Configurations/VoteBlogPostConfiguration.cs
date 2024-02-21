@@ -13,15 +13,21 @@ internal class VoteBlogPostConfiguration : IEntityTypeConfiguration<VoteBlogPost
         builder.HasKey(v => v.Id);
         builder.Property(v => v.Id).HasColumnType("int");
 
-        builder.Property(v => v.UpdatedAt).HasColumnType("datetime");
+        builder.Property(v => v.UpdatedAt).HasColumnType("datetime").IsRequired(false);
         builder.Property(v => v.CreatedAt).HasColumnType("datetime").HasDefaultValue(DateTime.Now);
         
         builder.Property(v => v.VoteType).HasDefaultValue(VoteType.None).HasConversion<string>();
 
-        builder.Property(v => v.BlogPostId).HasColumnType("int").IsRequired();
-        builder.HasOne<BlogPost>().WithMany().HasForeignKey(v => v.BlogPostId);
+        builder.Property(v => v.BlogPostId).HasColumnType("int");
+     
+        builder.Property(v => v.UserId).HasColumnType("uniqueidentifier");
 
-        builder.Property(v => v.UserId).HasColumnType("uniqueidentifier").IsRequired();
-        builder.HasOne<User>().WithMany().HasForeignKey(v => v.UserId);
+        builder.Property(b => b.IsDelete).HasColumnType("bit").HasDefaultValue(false);
+        builder.HasQueryFilter(t => t.IsDelete == false);
+        builder.Property(b => b.DeletedAt).HasColumnType("datetime").IsRequired(false);
+
+        builder.HasOne<User>().WithMany().HasForeignKey(v => v.UserId).OnDelete(DeleteBehavior.NoAction); ;
+        builder.HasOne<BlogPost>().WithMany().HasForeignKey(v => v.BlogPostId).OnDelete(DeleteBehavior.NoAction); ;
+
     }
 }

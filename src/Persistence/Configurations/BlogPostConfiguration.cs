@@ -15,7 +15,7 @@ internal class BlogPostConfiguration : IEntityTypeConfiguration<BlogPost>
         builder.ToTable("BlogPosts");
         builder.HasKey(b => b.Id);
         builder.Property(b => b.Id).HasColumnType("int");
-        builder.Property(b => b.UpdatedAt).HasColumnType("datetime");
+        builder.Property(b => b.UpdatedAt).HasColumnType("datetime").IsRequired(false);
         builder.Property(b => b.CreatedAt).HasColumnType("datetime").HasDefaultValue(DateTime.Now);
 
         builder.Property(b => b.ThumbnailImagePath).HasColumnType("varchar").HasMaxLength(150);
@@ -40,7 +40,7 @@ internal class BlogPostConfiguration : IEntityTypeConfiguration<BlogPost>
 
         builder.Property(b => b.IsDelete).HasColumnType("bit").HasDefaultValue(false);
         builder.HasQueryFilter(t => t.IsDelete == false);
-        builder.Property(b => b.DeletedAt).HasColumnType("datetime");
+        builder.Property(b => b.DeletedAt).HasColumnType("datetime").IsRequired(false);
             
     }
 }
