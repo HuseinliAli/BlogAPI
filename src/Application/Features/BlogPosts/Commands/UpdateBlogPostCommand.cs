@@ -14,14 +14,14 @@ using System.Threading.Tasks;
 
 namespace Application.Features.BlogPosts.Commands
 {
-    public class UpdateBlogPostCommand : IRequest<int>
+    public class UpdateBlogPostCommand : IRequest<ReturnedBlogPostDto>
     {
         public UpdateBlogPostDto UpdateBlogPostDto { get; set; }
 
         [SecuredOperation("admin,editor")]
-        public class UpdateBlogPostCommandHandler( IBlogPostRepository blogPostRepository, FileHelper fileHelper) : IRequestHandler<UpdateBlogPostCommand, int>
+        public class UpdateBlogPostCommandHandler( IBlogPostRepository blogPostRepository, FileHelper fileHelper) : IRequestHandler<UpdateBlogPostCommand, ReturnedBlogPostDto>
         {
-            public async Task<int> Handle(UpdateBlogPostCommand request, CancellationToken cancellationToken)
+            public async Task<ReturnedBlogPostDto> Handle(UpdateBlogPostCommand request, CancellationToken cancellationToken)
             {
                 var path = String.Empty;
                 if(request.UpdateBlogPostDto.File is not null)
@@ -35,7 +35,9 @@ namespace Application.Features.BlogPosts.Commands
                     blog.ThumbnailImagePath=path;
 
                 await blogPostRepository.SaveChangesAsync();
-                return blog.Id;
+                var blogToReturn = new ReturnedBlogPostDto(blog.Id, blog.Subject, blog.Content);
+
+                return blogToReturn;
             }
         }
     }

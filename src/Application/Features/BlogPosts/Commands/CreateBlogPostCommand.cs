@@ -13,14 +13,14 @@ using System.Threading.Tasks;
 
 namespace Application.Features.Blogs.Commands
 {
-    public class CreateBlogPostCommand : IRequest<int>
+    public class CreateBlogPostCommand : IRequest<ReturnedBlogPostDto>
     {
        public CreateBlogPostDto CreateBlogPostDto { get; set; }
 
         [SecuredOperation("admin,editor")]
-        public class CreateBlogPostCommandHandler(IUserRepository userRepository, IBlogPostRepository blogPostRepository,FileHelper fileHelper,AuthBusinessRules authBusinessRules) : IRequestHandler<CreateBlogPostCommand, int>
+        public class CreateBlogPostCommandHandler(IUserRepository userRepository, IBlogPostRepository blogPostRepository,FileHelper fileHelper,AuthBusinessRules authBusinessRules) : IRequestHandler<CreateBlogPostCommand, ReturnedBlogPostDto>
         {      
-            public async Task<int> Handle(CreateBlogPostCommand request, CancellationToken cancellationToken)
+            public async Task<ReturnedBlogPostDto> Handle(CreateBlogPostCommand request, CancellationToken cancellationToken)
             {
                 await authBusinessRules.CheckUserExists(request.CreateBlogPostDto.CreatedBy);
                 var path = fileHelper.UploadFile(request.CreateBlogPostDto.File);
@@ -31,9 +31,12 @@ namespace Application.Features.Blogs.Commands
                     Subject = request.CreateBlogPostDto.Subject,
                     Content=request.CreateBlogPostDto.Content,
                 };
+          
                 blogPostRepository.Add(blog);
                 await blogPostRepository.SaveChangesAsync();
-                return blog.Id;
+
+                var blogToReturn = new ReturnedBlogPostDto(blog.Id,blog.Subject,blog.Content);
+                return blogToReturn;
             }
         }
     }

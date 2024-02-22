@@ -2,6 +2,8 @@
 using Application.RequestShapers;
 using Domain.Dtos;
 using Domain.Entities;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Routing;
 using Microsoft.EntityFrameworkCore;
 using Persistence.Contexts;
 
@@ -21,7 +23,7 @@ public class BlogPostRepository : GenericRepository<BlogPost, int>, IBlogPostRep
                      where bp.Id == id
                      select new BlogPostForDetailDto(
                          bp.Id,
-                         bp.ThumbnailImagePath,
+                         $"{bp.ThumbnailImagePath.Substring(7, bp.ThumbnailImagePath.Length-7)}",
                          bp.Subject,
                          bp.Content,
                          bp.ViewCount,
@@ -35,7 +37,7 @@ public class BlogPostRepository : GenericRepository<BlogPost, int>, IBlogPostRep
 
     public async Task<PagedList<BlogPostForListDto>> GetPostsAsync(RequestParameters request)
     {
-        var result = await _context.BlogPosts.Select(bp=>new BlogPostForListDto(bp.Id,bp.ThumbnailImagePath,bp.Subject,bp.ViewCount,bp.LikeCount,bp.DisLikeCount,bp.CreatedAt)).ToListAsync();
+        var result = await _context.BlogPosts.Select(bp=>new BlogPostForListDto(bp.Id, $"{bp.ThumbnailImagePath.Substring(7, bp.ThumbnailImagePath.Length-7)}", bp.Subject,bp.ViewCount,bp.LikeCount,bp.DisLikeCount,bp.CreatedAt)).ToListAsync();
 
         return PagedList<BlogPostForListDto>.ToPagedList(result, request.PageNumber, request.PageSize);
     }

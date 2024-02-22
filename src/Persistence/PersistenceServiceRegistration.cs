@@ -1,4 +1,5 @@
 ﻿using Application.Repositories;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -18,7 +19,6 @@ namespace Persistence
         {
             services.AddDbContext<BlogAppDbContext>(options => options.UseSqlServer(configuration.GetConnectionString("BlogDb")));
             services.AddScoped<IBlogPostRepository, BlogPostRepository>();
-           
             services.AddScoped<IUserRepository,UserRepository>();
         }
     }

@@ -40,12 +40,12 @@ namespace API.Controllers
             await Mediator.Send(command);
             return Ok();
         }
-       // [Authorize]
+        [Authorize]
         [HttpPost]
         public async Task<IActionResult> Create([FromForm]CreateBlogPostCommand command)
         {
-            var id = await Mediator.Send(command);
-            return Ok(id);
+            var result = await Mediator.Send(command);
+            return Ok(result);
         }
  
         [Authorize]
@@ -56,12 +56,12 @@ namespace API.Controllers
             return Ok();
         }
 
-      //  [Authorize]
+        [Authorize]
         [HttpPut]
         public async Task<IActionResult> Update([FromForm]UpdateBlogPostCommand command)
         {
-            await Mediator.Send(command);
-            return Ok();
+            var result = await Mediator.Send(command);
+            return Ok(result);
         }
     }
 }
