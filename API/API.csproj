@@ -20,11 +20,11 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Controllers\" />
+    <ProjectReference Include="..\src\Persistence\Persistence.csproj" />
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\src\Persistence\Persistence.csproj" />
+    <Folder Include="wwwroot\imgs\" />
   </ItemGroup>
 
 </Project>

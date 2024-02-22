@@ -6,9 +6,5 @@ using System.Threading.Tasks;
 
 namespace Application.Features.Auth.Dtos
 {
-    public class UserLogin
-    {
-        public string Email { get; set; }
-        public string Password { get; set; }
-    }
+    public record UserLoginDto(string Email,string Password);
 }

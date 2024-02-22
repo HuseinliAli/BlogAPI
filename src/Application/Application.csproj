@@ -10,12 +10,8 @@
     <Folder Include="Features\Auth\Validators\" />
     <Folder Include="Features\Auth\Queries\" />
     <Folder Include="Features\Auth\Profiles\" />
-    <Folder Include="Features\Blogs\Commands\" />
-    <Folder Include="Features\Blogs\Dtos\" />
-    <Folder Include="Features\Blogs\Rules\" />
-    <Folder Include="Features\Blogs\Validators\" />
-    <Folder Include="Features\Blogs\Profiles\" />
-    <Folder Include="Features\Blogs\Queries\" />
+    <Folder Include="Features\BlogPosts\Validators\" />
+    <Folder Include="Features\BlogPosts\Profiles\" />
     <Folder Include="Services\" />
   </ItemGroup>
 
@@ -34,7 +30,7 @@
 	  <PackageReference Include="Microsoft.Extensions.Configuration.Binder" Version="8.0.1" />
 	  <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="8.0.0" />
     <PackageReference Include="Microsoft.IdentityModel.Tokens" Version="7.3.1" />
-    <PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="6.24.0" />
+    <PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="7.3.1" />
   </ItemGroup>
 
   <ItemGroup>

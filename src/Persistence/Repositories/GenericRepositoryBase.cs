@@ -22,14 +22,22 @@ public class GenericRepository<TEntity, TKey>(BlogAppDbContext context) : IGener
     =>  table.Remove(entity);
 
     public IQueryable<TEntity> FindBy(Expression<Func<TEntity, bool>> expression, bool changeTracker)
+    {
+        throw new NotImplementedException();
+    }
+
+    public IQueryable<TEntity> FindByAsync(Expression<Func<TEntity, bool>> expression, bool changeTracker)
         => !changeTracker ? table.Where(expression).AsNoTracking() : table.Where(expression);
     
 
     public IQueryable<TEntity> GetAll(bool changeTracker)
         => !changeTracker ? table.AsNoTracking() : table;
 
-    public TEntity GetFirst(Expression<Func<TEntity, bool>> expression, bool changeTracker)
-        => !changeTracker ? table.AsNoTracking().Where(expression).FirstOrDefault() : table.Where(expression).FirstOrDefault();
+    public async Task<TEntity> GetFirst(Expression<Func<TEntity, bool>> expression, bool changeTracker)
+        => !changeTracker ?await table.AsNoTracking().Where(expression).FirstOrDefaultAsync() :await table.Where(expression).FirstOrDefaultAsync();
+
+    public Task<int> SaveChangesAsync()
+    => context.SaveChangesAsync();
 
     public void Update(TEntity entity)
         => table.Update(entity);

@@ -8,9 +8,10 @@ public interface IGenericRepository<TEntity,TKey>
 {
     IQueryable<TEntity> GetAll(bool changeTracker);
     IQueryable<TEntity> FindBy(Expression<Func<TEntity,bool>> expression,bool changeTracker);
-    TEntity GetFirst(Expression<Func<TEntity, bool>> expression, bool changeTracker);
+    Task<TEntity> GetFirst(Expression<Func<TEntity, bool>> expression, bool changeTracker);
     void Add(TEntity entity);
     void Update(TEntity entity);
     void Delete(TEntity entity);
+    Task<int> SaveChangesAsync();
 }
 

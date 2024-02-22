@@ -46,7 +46,7 @@ public class JwtHelper : ITokenHelper
         var jwt = new JwtSecurityToken(
             issuer:tokenOptions.Issuer,
             audience:tokenOptions.Audience,
-            expires:DateTime.MinValue,
+            expires:_accessTokenExpiration,
             notBefore:DateTime.Now,
             claims:SetClaims(user,operationClaims),
             signingCredentials:signingCredentials
@@ -64,14 +64,5 @@ public class JwtHelper : ITokenHelper
         return claims;
     }
 
-    private string GenerateRefreshToken()
-    {
-        var randomNumber = new byte[32];
-        using (var rng = RandomNumberGenerator.Create())
-        {
-            rng.GetBytes(randomNumber);
-            return Convert.ToBase64String(randomNumber);  
-        }
-    }
 }
 
