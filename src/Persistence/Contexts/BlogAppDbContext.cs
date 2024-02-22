@@ -20,29 +20,34 @@ namespace Persistence.Contexts
             modelBuilder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());
             base.OnModelCreating(modelBuilder);
         }
+        private void SetAuditProperties()
+        {
+            ChangeTracker.SetAddedProperties();
+            //ChangeTracker.SetUpdatedroperties();
+            ChangeTracker.SetDeletedProperties();
+        }
         public override int SaveChanges()
         {
-            ChangeTracker.SetAuditProperties();
+            SetAuditProperties();
             return base.SaveChanges();
         }
         public override int SaveChanges(bool acceptAllChangesOnSuccess)
         {
-            ChangeTracker.SetAuditProperties();
+            SetAuditProperties();
             return base.SaveChanges(acceptAllChangesOnSuccess);
         }
         public override Task<int> SaveChangesAsync(bool acceptAllChangesOnSuccess, CancellationToken cancellationToken = default)
         {
-            ChangeTracker.SetAuditProperties();
+            SetAuditProperties();
             return base.SaveChangesAsync(acceptAllChangesOnSuccess, cancellationToken);
         }
         public override Task<int> SaveChangesAsync(CancellationToken cancellationToken = default)
         {
-            ChangeTracker.SetAuditProperties();
+            SetAuditProperties();
             return base.SaveChangesAsync(cancellationToken);
         }
         public DbSet<BlogPost> BlogPosts { get; set; }
         public DbSet<User> Users { get; set; }
-        public DbSet<VoteBlogPost> VoteBlogPosts { get; set; }
         public DbSet<UserOperation> UserOperations { get; set; }
         public DbSet<OperationClaim> OperationClaims { get; set; }
     }

@@ -26,6 +26,9 @@ internal class BlogPostConfiguration : IEntityTypeConfiguration<BlogPost>
 
         builder.Property(b => b.Content).HasColumnType("nvarchar").HasMaxLength(4000).IsRequired();
 
+
+        builder.Property(b => b.LikeCount).HasColumnType("int").HasDefaultValue(0);
+        builder.Property(b => b.DisLikeCount).HasColumnType("int").HasDefaultValue(0);
         builder.Property(b => b.CreatedBy).HasColumnType("uniqueidentifier").IsRequired();
         builder.HasOne<User>()
                 .WithMany()

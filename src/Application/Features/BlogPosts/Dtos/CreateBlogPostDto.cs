@@ -8,5 +8,6 @@ using System.Threading.Tasks;
 namespace Application.Features.Blogs.Dtos
 {
     public record CreateBlogPostDto(IFormFile File, string Subject,string Content,Guid CreatedBy);
-    public record GetByIdBlogPostDto(Guid id);
+    public record UpdateBlogPostDto(int Id,IFormFile? File,string Subject,string Content);
+    public record GetByIdBlogPostDto(Guid Id);
 }

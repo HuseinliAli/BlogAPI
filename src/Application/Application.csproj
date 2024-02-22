@@ -9,9 +9,7 @@
   <ItemGroup>
     <Folder Include="Features\Auth\Validators\" />
     <Folder Include="Features\Auth\Queries\" />
-    <Folder Include="Features\Auth\Profiles\" />
     <Folder Include="Features\BlogPosts\Validators\" />
-    <Folder Include="Features\BlogPosts\Profiles\" />
     <Folder Include="Services\" />
   </ItemGroup>
 

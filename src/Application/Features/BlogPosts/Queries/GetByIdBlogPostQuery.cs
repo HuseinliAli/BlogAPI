@@ -2,6 +2,7 @@
 using Application.Features.Blogs.Dtos;
 using Application.Repositories;
 using Domain.Dtos;
+using Domain.Exceptions;
 using MediatR;
 using System;
 using System.Collections.Generic;
@@ -19,7 +20,6 @@ namespace Application.Features.BlogPosts.Queries
         {
             public async Task<BlogPostForDetailDto> Handle(GetByIdBlogPostQuery request, CancellationToken cancellationToken)
             {
-                await blogPostBusinessRules.CheckBlogExists(request.Id);
                 await blogPostBusinessRules.InCreaseView(request.Id);
                 var blogPost = await blogPostRepository.GetPostAsync(request.Id);
                 return blogPost;

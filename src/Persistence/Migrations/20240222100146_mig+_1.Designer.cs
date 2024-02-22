@@ -12,7 +12,7 @@ using Persistence.Contexts;
 namespace Persistence.Migrations
 {
     [DbContext(typeof(BlogAppDbContext))]
-    [Migration("20240220102829_mig_1")]
+    [Migration("20240222100146_mig+_1")]
     partial class mig_1
     {
         /// <inheritdoc />
@@ -41,7 +41,7 @@ namespace Persistence.Migrations
                     b.Property<DateTime>("CreatedAt")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("datetime")
-                        .HasDefaultValue(new DateTime(2024, 2, 20, 14, 28, 28, 884, DateTimeKind.Local).AddTicks(1095));
+                        .HasDefaultValue(new DateTime(2024, 2, 22, 14, 1, 46, 194, DateTimeKind.Local).AddTicks(6140));
 
                     b.Property<Guid>("CreatedBy")
                         .HasColumnType("uniqueidentifier");
@@ -52,10 +52,20 @@ namespace Persistence.Migrations
                     b.Property<Guid>("DeletedBy")
                         .HasColumnType("uniqueidentifier");
 
+                    b.Property<int>("DisLikeCount")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasDefaultValue(0);
+
                     b.Property<bool>("IsDelete")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("bit")
                         .HasDefaultValue(false);
+
+                    b.Property<int>("LikeCount")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasDefaultValue(0);
 
                     b.Property<string>("Subject")
                         .IsRequired()
@@ -93,7 +103,7 @@ namespace Persistence.Migrations
                     b.Property<DateTime>("CreatedAt")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("datetime")
-                        .HasDefaultValue(new DateTime(2024, 2, 20, 14, 28, 28, 887, DateTimeKind.Local).AddTicks(3463));
+                        .HasDefaultValue(new DateTime(2024, 2, 22, 14, 1, 46, 197, DateTimeKind.Local).AddTicks(7745));
 
                     b.Property<DateTime?>("DeletedAt")
                         .HasColumnType("datetime");
@@ -125,7 +135,7 @@ namespace Persistence.Migrations
                     b.Property<DateTime>("CreatedAt")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("datetime")
-                        .HasDefaultValue(new DateTime(2024, 2, 20, 14, 28, 28, 888, DateTimeKind.Local).AddTicks(963));
+                        .HasDefaultValue(new DateTime(2024, 2, 22, 14, 1, 46, 198, DateTimeKind.Local).AddTicks(3877));
 
                     b.Property<DateTime?>("DeletedAt")
                         .HasColumnType("datetime");
@@ -167,6 +177,9 @@ namespace Persistence.Migrations
                         .IsRequired()
                         .HasColumnType("varchar");
 
+                    b.Property<DateTime>("RefreshTokenExpiryTime")
+                        .HasColumnType("datetime2");
+
                     b.Property<DateTime?>("UpdatedAt")
                         .HasColumnType("datetime");
 
@@ -186,7 +199,7 @@ namespace Persistence.Migrations
                     b.Property<DateTime>("CreatedAt")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("datetime")
-                        .HasDefaultValue(new DateTime(2024, 2, 20, 14, 28, 28, 889, DateTimeKind.Local).AddTicks(218));
+                        .HasDefaultValue(new DateTime(2024, 2, 22, 14, 1, 46, 200, DateTimeKind.Local).AddTicks(4854));
 
                     b.Property<DateTime?>("DeletedAt")
                         .HasColumnType("datetime");
@@ -214,51 +227,6 @@ namespace Persistence.Migrations
                     b.ToTable("UserOperations", (string)null);
                 });
 
-            modelBuilder.Entity("Domain.Entities.VoteBlogPost", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<int>("BlogPostId")
-                        .HasColumnType("int");
-
-                    b.Property<DateTime>("CreatedAt")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("datetime")
-                        .HasDefaultValue(new DateTime(2024, 2, 20, 14, 28, 28, 893, DateTimeKind.Local).AddTicks(8380));
-
-                    b.Property<DateTime?>("DeletedAt")
-                        .HasColumnType("datetime");
-
-                    b.Property<bool>("IsDelete")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("bit")
-                        .HasDefaultValue(false);
-
-                    b.Property<DateTime?>("UpdatedAt")
-                        .HasColumnType("datetime");
-
-                    b.Property<Guid>("UserId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<string>("VoteType")
-                        .IsRequired()
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("nvarchar(max)")
-                        .HasDefaultValue("None");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("BlogPostId");
-
-                    b.HasIndex("UserId");
-
-                    b.ToTable("VoteBlogPosts", (string)null);
-                });
-
             modelBuilder.Entity("Domain.Entities.BlogPost", b =>
                 {
                     b.HasOne("Domain.Entities.User", null)
@@ -280,21 +248,6 @@ namespace Persistence.Migrations
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-                });
-
-            modelBuilder.Entity("Domain.Entities.VoteBlogPost", b =>
-                {
-                    b.HasOne("Domain.Entities.BlogPost", null)
-                        .WithMany()
-                        .HasForeignKey("BlogPostId")
-                        .OnDelete(DeleteBehavior.NoAction)
-                        .IsRequired();
-
-                    b.HasOne("Domain.Entities.User", null)
-                        .WithMany()
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
                 });
 #pragma warning restore 612, 618

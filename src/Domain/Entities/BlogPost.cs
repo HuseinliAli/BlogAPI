@@ -12,7 +12,8 @@ public class BlogPost:BaseEntity<int>
     public string Subject { get; set; }
     public string Content { get; set; }
     public long ViewCount{ get; set; }
-
+    public int LikeCount { get; set; }
+    public int DisLikeCount { get; set; }
     public Guid CreatedBy { get; set; }
     public Guid DeletedBy { get; set; }
 }

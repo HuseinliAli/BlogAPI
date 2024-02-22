@@ -2,7 +2,6 @@
 using Application.RequestShapers;
 using Domain.Dtos;
 using Domain.Entities;
-using Domain.Enums;
 using Microsoft.EntityFrameworkCore;
 using Persistence.Contexts;
 
@@ -26,8 +25,8 @@ public class BlogPostRepository : GenericRepository<BlogPost, int>, IBlogPostRep
                          bp.Subject,
                          bp.Content,
                          bp.ViewCount,
-                         0,
-                         0,
+                         bp.LikeCount,
+                         bp.DisLikeCount,
                          bp.CreatedAt
                      );
 
@@ -36,17 +35,8 @@ public class BlogPostRepository : GenericRepository<BlogPost, int>, IBlogPostRep
 
     public async Task<PagedList<BlogPostForListDto>> GetPostsAsync(RequestParameters request)
     {
-        var dtos = from bp in _context.BlogPosts
-                     join vb in _context.VoteBlogPosts
-                     on bp.Id equals vb.BlogPostId into voteGroup
-                     select new BlogPostForListDto(bp.Id,
-                     bp.ThumbnailImagePath,
-                     bp.Subject,
-                     bp.ViewCount,
-                     0,
-                     0,
-                     bp.CreatedAt);
-        var result = await dtos.ToListAsync();
+        var result = await _context.BlogPosts.Select(bp=>new BlogPostForListDto(bp.Id,bp.ThumbnailImagePath,bp.Subject,bp.ViewCount,bp.LikeCount,bp.DisLikeCount,bp.CreatedAt)).ToListAsync();
+
         return PagedList<BlogPostForListDto>.ToPagedList(result, request.PageNumber, request.PageSize);
     }
 }
