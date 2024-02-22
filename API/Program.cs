@@ -2,6 +2,8 @@ using API.Extensions;
 using Application;
 using Autofac;
 using Autofac.Extensions.DependencyInjection;
+using FluentValidation;
+using FluentValidation.AspNetCore;
 using Persistence;
 var builder = WebApplication.CreateBuilder(args);
 
@@ -19,7 +21,7 @@ builder.Services.AddApplicationServices();
 builder.Services.AddJwtConfigurations(builder.Configuration);
 builder.Services.AddPersistenceRegistration(builder.Configuration);
 var app = builder.Build();
-
+app.UseGlobalExceptionHandler();
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {

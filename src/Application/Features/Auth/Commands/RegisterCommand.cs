@@ -14,26 +14,26 @@ using System.Threading.Tasks;
 
 namespace Application.Features.Auth.Commands
 {
-    public class RegisterCommand : IRequest<TokenDto>
+    public  class RegisterCommand : IRequest<TokenDto>
     {
-        public UserRegisterDto UserRegister { get; set; }
+        public UserRegisterDto UserRegisterDto { get; set; }
 
         public class RegisterCommandHandler(AuthBusinessRules businessRules,IUserRepository userRepository,ITokenHelper tokenService) : IRequestHandler<RegisterCommand, TokenDto>
         {
             public async Task<TokenDto> Handle(RegisterCommand request, CancellationToken cancellationToken)
             {
-                await businessRules.EmailIsDublicated(request.UserRegister.Email);
+                await businessRules.EmailIsDublicated(request.UserRegisterDto.Email);
 
                 byte[] hash, salt;
-                HashingHelper.CreatePasswordHash(request.UserRegister.Password, out hash, out salt);
+                HashingHelper.CreatePasswordHash(request.UserRegisterDto.Password, out hash, out salt);
 
                 User createdUser = new()
                 {
-                    Email=request.UserRegister.Email,
+                    Email=request.UserRegisterDto.Email,
                     PasswordHash=hash,
                     PasswordSalt=salt,
-                    FirstName=request.UserRegister.FirstName,
-                    LastName=request.UserRegister.LastName,
+                    FirstName=request.UserRegisterDto.FirstName,
+                    LastName=request.UserRegisterDto.LastName,
                     RefreshToken = GenerateRefreshToken(),
                     RefreshTokenExpiryTime=DateTime.Now.AddDays(7)
                 };
