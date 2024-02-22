@@ -19,8 +19,7 @@ namespace Application.Features.Blogs.Commands
 
         [SecuredOperation("admin,editor")]
         public class CreateBlogPostCommandHandler(IUserRepository userRepository, IBlogPostRepository blogPostRepository,FileHelper fileHelper,AuthBusinessRules authBusinessRules) : IRequestHandler<CreateBlogPostCommand, int>
-        {
-            
+        {      
             public async Task<int> Handle(CreateBlogPostCommand request, CancellationToken cancellationToken)
             {
                 await authBusinessRules.CheckUserExists(request.CreateBlogPostDto.CreatedBy);

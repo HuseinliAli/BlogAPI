@@ -51,6 +51,7 @@ namespace Application
             services.AddScoped<BlogPostBusinessRules>();
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
             services.AddSingleton<FileHelper>();
+            services.AddSingleton<IInterceptorSelector, AspectInterceptorSelector>();
             ServiceTool.Create(services);
         }
         

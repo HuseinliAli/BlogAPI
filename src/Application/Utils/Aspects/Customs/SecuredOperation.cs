@@ -2,6 +2,7 @@
 using Application.Utils.Extensions;
 using Application.Utils.Tools;
 using Castle.DynamicProxy;
+using Domain.Exceptions;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.DependencyInjection;
 using System;
@@ -34,7 +35,7 @@ namespace Application.Utils.Aspects.Customs
                     return;
                 }
             }
-            throw new Exception("");
+            throw new AccessDeniedException();
         }
     }
 }

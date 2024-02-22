@@ -19,7 +19,7 @@ internal class UserConfiguration : IEntityTypeConfiguration<User>
         builder.Property(u => u.LastName).HasColumnType("nvarchar").HasMaxLength(100).IsRequired();
         builder.Property(u => u.Email).HasColumnType("varchar").HasMaxLength(100).IsRequired();
 
-        builder.Property(u => u.RefreshToken).HasColumnType("varchar").IsRequired();
+        builder.Property(u => u.RefreshToken).HasColumnType("varchar").IsRequired().HasMaxLength(500);
         builder.Property(u => u.PasswordHash).IsRequired();
         builder.Property(u => u.PasswordSalt).IsRequired();
         builder.Property(u => u.IsActive).HasColumnType("bit").HasDefaultValue(true);
